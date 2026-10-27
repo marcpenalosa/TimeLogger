@@ -7,26 +7,49 @@
 from datetime import datetime
 from pathlib import Path
 
-# get the current time
-now = datetime.now()
-print(now.date())
-print(now.time())
+def main():
+    # get the current time
+    now = datetime.now()
+    print(now.date())
+    print(now.time())
 
-# wait until logging starts
-# start logging at this time
-start = datetime.now()
+    start = datetime.now()
 
-# see if there's a folder that already exist for this date
-path_string = "./logs/" + now.strftime("%Y-%m-%d")
-dir_path = Path(path_string)
-dir_path.mkdir(parents=True, exist_ok=True)
+    # create a logs folder if there isn't one already
+    path_string = "./logs/" + now.strftime("%Y-%m-%d")
+    dir_path = Path(path_string)
+    dir_path.mkdir(parents=True, exist_ok=True)
 
-print("Your input:", end=" ")
-str_var = input()
+    print(parse_string())
 
-# some time has passed
-end = datetime.now()
-elapsedTime = end - start
-print(elapsedTime)
+    # some time has passed
+    end = datetime.now()
+    elapsedTime = end - start
+    print(elapsedTime)
+
+    return 0
+
+# Purpose:
+#   read string input
+# Precondition:
+#   N/A
+# Postcondition:
+#   returns an int as exit status
+def parse_string():
+    str_input = input()
+
+    # splits the input into 2 parts
+    # [0] = command input
+    # [1] = rest of the string
+    parsed_input = str_input.split(maxsplit=1)
+
+    match(parsed_input[0]):
+        case "--note" | "--n":
+            print("note command")
+            return 0
+        case _:
+            return 1
+
+main()
 
 # what happens if we quit prematurely
